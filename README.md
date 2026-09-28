@@ -125,6 +125,7 @@ ParkSmart AI includes password hashing, CSRF protection, secure session settings
 
 - [Implementation plan](IMPLEMENTATION_PLAN.md)
 - [Architecture and agent contracts](ARCHITECTURE.md)
+- [Complete final-project blueprint](FINAL_PROJECT_BLUEPRINT.md)
 - [Security](SECURITY.md)
 - [Deployment](DEPLOYMENT.md)
 
@@ -135,4 +136,3 @@ The dashboard, resource tables, AI Factory monitor, and recommendation review pa
 ## License
 
 MIT — see [LICENSE](LICENSE).
-
