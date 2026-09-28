@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="description" content="ParkSmart AI park operations and agentic recommendation platform">
+  <title>{% block title %}ParkSmart AI{% endblock %}</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  {% block head %}{% endblock %}
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900">
+  <div id="mobile-backdrop" class="fixed inset-0 z-30 hidden bg-slate-950/40 lg:hidden"></div>
+  <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 flex w-72 -translate-x-full flex-col bg-emerald-950 text-emerald-50 shadow-2xl transition-transform lg:translate-x-0">
+    <div class="flex h-20 items-center gap-3 border-b border-emerald-800/70 px-6">
+      <div class="grid h-11 w-11 place-items-center rounded-2xl bg-emerald-400 text-emerald-950 shadow-lg shadow-emerald-950/30">
+        <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c-4 3-7 7-7 11a7 7 0 0 0 14 0c0-4-3-8-7-11Z"/><path d="M12 9v12M8 14l4 3 4-3"/></svg>
+      </div>
+      <div><p class="text-lg font-bold tracking-tight">ParkSmart AI</p><p class="text-xs text-emerald-300">Operations platform</p></div>
+    </div>
+    <nav class="flex-1 space-y-1 overflow-y-auto px-4 py-5 text-sm font-medium">
+      {% set nav = [
+        ('dashboard.index','Dashboard','/'),
+        ('visitors.page','Visitors','/visitors'),
+        ('tickets.page','Tickets & Entrance','/tickets'),
+        ('facilities.zones_page','Park Zones','/zones'),
+        ('facilities.facilities_page','Facilities','/facilities'),
+        ('reservations.page','Reservations','/reservations'),
+        ('maintenance.page','Maintenance','/maintenance'),
+        ('incidents.page','Incidents','/incidents'),
+        ('feedback.page','Feedback','/feedback')
+      ] %}
+      {% for endpoint, label, href in nav %}
+      <a class="sidebar-link flex items-center gap-3 rounded-xl px-4 py-2.5 {{ 'bg-emerald-800 text-white' if request.endpoint == endpoint else 'text-emerald-100 hover:bg-emerald-900' }}" href="{{ href }}"><span class="h-2 w-2 rounded-full {{ 'bg-emerald-300' if request.endpoint == endpoint else 'bg-emerald-700' }}"></span>{{ label }}</a>
+      {% endfor %}
+      {% if current_user.is_admin %}
+      <p class="px-4 pb-1 pt-5 text-[11px] font-bold uppercase tracking-[.18em] text-emerald-400">Administrator</p>
+      {% set admin_nav = [
+        ('staff.page','Staff & Users','/staff'),
+        ('reports.page','Reports','/reports'),
+        ('ai_factory.factory_page','AI Factory','/ai-factory'),
+        ('ai_factory.recommendations_page','AI Recommendations','/recommendations')
+      ] %}
+      {% for endpoint, label, href in admin_nav %}
+      <a class="sidebar-link flex items-center gap-3 rounded-xl px-4 py-2.5 {{ 'bg-emerald-800 text-white' if request.endpoint == endpoint else 'text-emerald-100 hover:bg-emerald-900' }}" href="{{ href }}"><span class="h-2 w-2 rounded-full {{ 'bg-amber-300' if request.endpoint == endpoint else 'bg-emerald-700' }}"></span>{{ label }}</a>
+      {% endfor %}
+      {% endif %}
+    </nav>
+    <div class="border-t border-emerald-800/70 p-4">
+      <div class="mb-3 rounded-xl bg-emerald-900/80 p-3"><p class="font-semibold">{{ current_user.username }}</p><p class="text-xs text-emerald-300">{{ current_user.role }}</p></div>
+      <form method="post" action="{{ url_for('auth.logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="w-full rounded-xl border border-emerald-700 px-4 py-2 text-sm font-semibold hover:bg-emerald-900">Sign out</button></form>
+    </div>
+  </aside>
+
+  <div class="lg:pl-72">
+    <header class="sticky top-0 z-20 flex h-20 items-center justify-between border-b border-slate-200 bg-white/90 px-4 backdrop-blur md:px-8">
+      <button id="menu-button" class="rounded-xl border border-slate-200 p-2.5 lg:hidden" aria-label="Open navigation"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      <div class="hidden sm:block"><p class="text-xs font-bold uppercase tracking-[.2em] text-emerald-700">Park operations center</p><p class="text-sm text-slate-500">Evidence first. Human approved.</p></div>
+      <div class="flex items-center gap-3 rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800"><span class="h-2 w-2 rounded-full bg-emerald-500"></span>System online</div>
+    </header>
+    <main class="p-4 md:p-8">
+      {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="mb-6 space-y-2">{% for category, message in messages %}<div class="rounded-xl border px-4 py-3 text-sm {{ 'border-red-200 bg-red-50 text-red-800' if category == 'error' else 'border-emerald-200 bg-emerald-50 text-emerald-800' }}">{{ message }}</div>{% endfor %}</div>{% endif %}{% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+  <div id="toast-container" class="fixed bottom-5 right-5 z-[70] flex w-[min(92vw,24rem)] flex-col gap-2" aria-live="polite"></div>
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
+

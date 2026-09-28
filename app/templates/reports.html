@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Reports · ParkSmart AI{% endblock %}
+{% block content %}
+<div id="reports-app">
+  <div class="mb-7"><p class="text-sm font-bold uppercase tracking-[.18em] text-emerald-700">Operational evidence</p><h1 class="mt-1 text-3xl font-bold tracking-tight">Reports & analytics</h1><p class="mt-2 text-slate-600">Filter real system records and export them as CSV, JSON, or printable HTML.</p></div>
+  <section class="rounded-2xl border border-slate-200 bg-white p-5 card-shadow"><div class="grid gap-4 md:grid-cols-4"><label class="text-sm font-semibold">Report<select id="report-type" class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2.5">{% for value, label in reports.items() %}<option value="{{ value }}">{{ label }}</option>{% endfor %}</select></label><label class="text-sm font-semibold">From<input id="report-start" type="date" class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2.5"></label><label class="text-sm font-semibold">To<input id="report-end" type="date" class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2.5"></label><button id="run-report" class="self-end rounded-xl bg-emerald-700 px-4 py-2.5 font-semibold text-white">Run report</button></div><div class="mt-5 flex flex-wrap gap-2"><a id="export-csv" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold" href="#">Export CSV</a><a id="export-json" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold" href="#">Export JSON</a><a id="export-html" target="_blank" rel="noopener" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold" href="#">Printable HTML</a></div></section>
+  <section class="mt-6 rounded-2xl border border-slate-200 bg-white card-shadow"><div class="border-b border-slate-200 p-5"><h2 id="report-title" class="font-bold">Report results</h2><p id="report-summary" class="text-sm text-slate-500">Choose a report and date range.</p></div><div id="report-table" class="overflow-x-auto"></div></section>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/reports.js') }}" defer></script>{% endblock %}
+
