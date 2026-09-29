@@ -4,15 +4,15 @@ resource "aws_db_subnet_group" "main" {
 }
 
 resource "aws_db_instance" "main" {
-  identifier                 = local.name_prefix
-  engine                     = "postgres"
-  engine_version             = "16"
-  instance_class             = var.database_instance_class
-  allocated_storage          = 20
-  max_allocated_storage      = 100
-  storage_encrypted          = true
-  db_name                    = var.database_name
-  username                   = "parksmart_admin"
+  identifier                  = local.name_prefix
+  engine                      = "postgres"
+  engine_version              = "16"
+  instance_class              = var.database_instance_class
+  allocated_storage           = 20
+  max_allocated_storage       = 100
+  storage_encrypted           = true
+  db_name                     = var.database_name
+  username                    = "parksmart_admin"
   manage_master_user_password = true
   publicly_accessible        = false
   multi_az                   = var.environment == "production"
