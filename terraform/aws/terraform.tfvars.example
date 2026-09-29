@@ -1,0 +1,9 @@
+# Copy this file to an untracked environment-specific .tfvars file. Never put
+# passwords, API keys, or secret values here: these are Secret Manager ARNs.
+environment                      = "staging"
+container_image                  = "123456789012.dkr.ecr.ap-southeast-1.amazonaws.com/parksmart-ai@sha256:replace-me"
+acm_certificate_arn              = "arn:aws:acm:ap-southeast-1:123456789012:certificate/replace-me"
+database_url_secret_arn          = "arn:aws:secretsmanager:ap-southeast-1:123456789012:secret:parksmart/staging/database-url"
+flask_secret_key_secret_arn      = "arn:aws:secretsmanager:ap-southeast-1:123456789012:secret:parksmart/staging/flask-secret"
+openai_api_key_secret_arn        = "arn:aws:secretsmanager:ap-southeast-1:123456789012:secret:parksmart/staging/openai-api-key"
+# ratelimit_storage_uri_secret_arn = "arn:aws:secretsmanager:ap-southeast-1:123456789012:secret:parksmart/staging/redis-url"

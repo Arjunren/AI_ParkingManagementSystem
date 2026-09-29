@@ -32,7 +32,10 @@ class Config:
     OPENAI_TIMEOUT_SECONDS = 45.0
     OPENAI_MAX_OUTPUT_TOKENS = 3000
     FACTORY_SYNC = False
-    RATELIMIT_STORAGE_URI = "memory://"
+    # Use Redis in a multi-instance deployment. Memory storage remains a safe
+    # local-development default, but must not be used to coordinate rate limits
+    # across ECS tasks.
+    RATELIMIT_STORAGE_URI = os.getenv("RATELIMIT_STORAGE_URI", "memory://")
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
     SESSION_COOKIE_SECURE = os.getenv("FLASK_ENV") == "production"

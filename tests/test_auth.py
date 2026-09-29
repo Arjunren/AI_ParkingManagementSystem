@@ -15,9 +15,14 @@ def test_invalid_login(client):
     assert b"Invalid username or password" in response.data
 
 
+def test_health_check_is_public_and_ready(client):
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.get_json() == {"status": "ok"}
+
+
 def test_role_permissions(staff_client):
     assert staff_client.get("/staff").status_code == 403
     assert staff_client.get("/reports").status_code == 403
     assert staff_client.post("/api/factory/start", json={}).status_code == 403
     assert staff_client.get("/visitors").status_code == 200
-

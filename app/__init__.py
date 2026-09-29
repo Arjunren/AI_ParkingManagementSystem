@@ -7,6 +7,7 @@ from decimal import Decimal
 import click
 from flask import Flask, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user
+from sqlalchemy import text
 
 from config import Config
 
@@ -43,6 +44,16 @@ def create_app(config_object=Config) -> Flask:
     register_blueprints(app)
     register_cli(app)
     register_handlers(app)
+
+    @app.get("/health")
+    def health_check():
+        """Readiness endpoint for container orchestrators and load balancers."""
+        try:
+            db.session.execute(text("SELECT 1"))
+        except Exception:
+            db.session.rollback()
+            return jsonify({"status": "unavailable"}), 503
+        return jsonify({"status": "ok"})
 
     @app.context_processor
     def inject_globals():
@@ -236,4 +247,3 @@ def register_cli(app: Flask) -> None:
         )
         db.session.commit()
         click.echo("Demo fixtures loaded. They are labeled and must not be used as production data.")
-

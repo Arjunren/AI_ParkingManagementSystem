@@ -1,0 +1,7 @@
+# Configure an encrypted remote backend in a dedicated infrastructure account.
+# Do not commit a real backend.hcl if names or account topology are sensitive.
+bucket         = "replace-with-encrypted-terraform-state-bucket"
+key            = "parksmart-ai/staging/terraform.tfstate"
+region         = "ap-southeast-1"
+encrypt        = true
+use_lockfile   = true

@@ -104,6 +104,7 @@ After creating an administrator, `flask seed-demo` adds clearly labeled classroo
 | `OPENAI_API_KEY` | Server-side OpenAI credential; never exposed to JavaScript |
 | `OPENAI_MODEL` | Structured-output capable model name |
 | `DATABASE_URL` | SQLite or PostgreSQL SQLAlchemy URL |
+| `RATELIMIT_STORAGE_URI` | Redis URL for shared rate limits in production; `memory://` locally |
 | `FLASK_ENV` | `development` or `production` cookie/security behavior |
 
 Never commit `.env`, local SQLite databases, real visitor records, API keys, or other secrets.
@@ -128,6 +129,7 @@ ParkSmart AI includes password hashing, CSRF protection, secure session settings
 - [Complete final-project blueprint](FINAL_PROJECT_BLUEPRINT.md)
 - [Security](SECURITY.md)
 - [Deployment](DEPLOYMENT.md)
+- [AWS Terraform foundation](terraform/aws/README.md)
 
 ## Screenshots
 
