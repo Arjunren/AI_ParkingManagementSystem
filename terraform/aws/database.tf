@@ -14,15 +14,15 @@ resource "aws_db_instance" "main" {
   db_name                     = var.database_name
   username                    = "parksmart_admin"
   manage_master_user_password = true
-  publicly_accessible        = false
-  multi_az                   = var.environment == "production"
-  db_subnet_group_name       = aws_db_subnet_group.main.name
-  vpc_security_group_ids     = [aws_security_group.database.id]
-  backup_retention_period    = var.environment == "production" ? 14 : 7
-  deletion_protection        = var.environment == "production"
-  skip_final_snapshot        = var.environment != "production"
-  final_snapshot_identifier  = var.environment == "production" ? "${local.name_prefix}-final" : null
-  copy_tags_to_snapshot      = true
-  auto_minor_version_upgrade = true
-  apply_immediately          = false
+  publicly_accessible         = false
+  multi_az                    = var.environment == "production"
+  db_subnet_group_name        = aws_db_subnet_group.main.name
+  vpc_security_group_ids      = [aws_security_group.database.id]
+  backup_retention_period     = var.environment == "production" ? 14 : 7
+  deletion_protection         = var.environment == "production"
+  skip_final_snapshot         = var.environment != "production"
+  final_snapshot_identifier   = var.environment == "production" ? "${local.name_prefix}-final" : null
+  copy_tags_to_snapshot       = true
+  auto_minor_version_upgrade  = true
+  apply_immediately           = false
 }

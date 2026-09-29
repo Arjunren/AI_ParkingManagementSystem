@@ -103,16 +103,13 @@ resource "aws_ecs_task_definition" "web" {
 }
 
 resource "aws_ecs_service" "web" {
-  name            = "web"
-  cluster         = aws_ecs_cluster.main.id
-  task_definition = aws_ecs_task_definition.web.arn
-  desired_count   = var.desired_count
-  launch_type     = "FARGATE"
-
-  deployment_configuration {
-    minimum_healthy_percent = 100
-    maximum_percent         = 200
-  }
+  name                               = "web"
+  cluster                            = aws_ecs_cluster.main.id
+  task_definition                    = aws_ecs_task_definition.web.arn
+  desired_count                      = var.desired_count
+  launch_type                        = "FARGATE"
+  deployment_minimum_healthy_percent = 100
+  deployment_maximum_percent         = 200
 
   network_configuration {
     assign_public_ip = false
